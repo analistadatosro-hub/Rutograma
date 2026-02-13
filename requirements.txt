@@ -1,0 +1,9 @@
+streamlit
+pandas
+numpy
+folium
+streamlit-folium
+openpyxl
+ortools
+requests
+azure-identity
