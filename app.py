@@ -10,6 +10,80 @@ import math
 
 st.set_page_config(page_title="Gestión de Rutas - Sodexo", layout="wide", page_icon="🚛")
 
+# --- LOGIN CONFIG ---
+USUARIO_VALIDO = "usuario_prueba1"
+PASSWORD_VALIDO = "prueba123"
+
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+# --- LOGIN SCREEN ---
+if not st.session_state.authenticated:
+
+    # Background styling
+    st.markdown("""
+        <style>
+        .stApp {
+            background: linear-gradient(135deg, #262262, #1B1B4F);
+        }
+        .login-card {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .login-title {
+            color: #262262;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .stButton button {
+            background-color: #EF4044 !important;
+            color: white !important;
+            border-radius: 8px !important;
+            height: 45px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .stButton button:hover {
+            background-color: #D12F33 !important;
+            transform: translateY(-2px);
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    # Center layout
+    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        st.markdown("<div class='login-card'>", unsafe_allow_html=True)
+
+        # Logo
+        if os.path.exists("logo.png"):
+            st.image("logo.png", width=200)
+
+        st.markdown("<div class='login-title'>Acceso al Sistema</div>", unsafe_allow_html=True)
+        st.markdown("###")
+
+        usuario = st.text_input("Usuario", placeholder="Ingrese su usuario")
+        password = st.text_input("Contraseña", type="password", placeholder="Ingrese su contraseña")
+
+        login_btn = st.button("Iniciar Sesión")
+
+        if login_btn:
+            if usuario == USUARIO_VALIDO and password == PASSWORD_VALIDO:
+                st.session_state.authenticated = True
+                st.success("Acceso concedido ✅")
+                st.rerun()
+            else:
+                st.error("Usuario o contraseña incorrectos ❌")
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    st.stop()
+
+
+
 # --- CUSTOM CSS (SODEXO BRANDING) ---
 st.markdown("""
     <style>
@@ -224,6 +298,10 @@ st.markdown("<p style='text-align: center; color: #5D5D5D; font-weight: bold;'>G
 
 if st.button("🔄 Reiniciar Aplicación"):
     reset_app()
+    st.rerun()
+
+if st.button("🔐 Cerrar Sesión"):
+    st.session_state.authenticated = False
     st.rerun()
 
 # --- LOAD DATABASE (ONCE) ---
@@ -722,3 +800,4 @@ elif st.session_state.stage == 'results':
     if c_reset.button("🔄 Nueva Planificación"):
         reset_app()
         st.rerun()
+
