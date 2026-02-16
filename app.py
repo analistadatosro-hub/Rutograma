@@ -17,72 +17,27 @@ PASSWORD_VALIDO = "prueba123"
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
-
-# --- LOGIN CONFIG ---
-USUARIO_VALIDO = "usuario_prueba1"
-PASSWORD_VALIDO = "prueba123"
-
-if "authenticated" not in st.session_state:
-    st.session_state.authenticated = False
-
-# --- LOGIN SCREEN ---
 if not st.session_state.authenticated:
 
-    st.markdown("""
-        <style>
-        .login-card {
-            background-color: white;
-            padding: 35px;
-            border-radius: 12px;
-            border: 1px solid #E5E5E5;
-            max-width: 420px;
-            margin: auto;
-        }
-        .login-title {
-            text-align: center;
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .stButton button {
-            width: 100%;
-            height: 42px;
-            border-radius: 8px;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # Espacio superior
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     # Logo centrado
-    if os.path.exists("logo.png"):
-        col1, col2, col3 = st.columns([1,2,1])
-        with col2:
-            st.image("logo.png", width=180)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # Card centrada
     col1, col2, col3 = st.columns([1,2,1])
     with col2:
-        st.markdown("<div class='login-card'>", unsafe_allow_html=True)
+        if os.path.exists("logo.png"):
+            st.image("logo.png", width=180)
 
-        st.markdown("<div class='login-title'>Acceso al Sistema</div>", unsafe_allow_html=True)
+        st.markdown("### Acceso al Sistema")
 
         usuario = st.text_input("Usuario")
         password = st.text_input("Contraseña", type="password")
 
-        login_btn = st.button("Iniciar Sesión")
-
-        if login_btn:
+        if st.button("Iniciar Sesión", use_container_width=True):
             if usuario == USUARIO_VALIDO and password == PASSWORD_VALIDO:
                 st.session_state.authenticated = True
                 st.rerun()
             else:
                 st.error("Usuario o contraseña incorrectos")
-
-        st.markdown("</div>", unsafe_allow_html=True)
 
     st.stop()
 
@@ -803,5 +758,6 @@ elif st.session_state.stage == 'results':
     if c_reset.button("🔄 Nueva Planificación"):
         reset_app()
         st.rerun()
+
 
 
